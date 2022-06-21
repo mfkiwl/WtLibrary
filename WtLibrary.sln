@@ -1,0 +1,46 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.2.32602.215
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WtButton", "WtButton\WtButton.vcxproj", "{759D1B6A-8832-414F-AE87-EBBD9B2068EE}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FsmTiny", "FsmTiny\FsmTiny.vcxproj", "{244C1758-6E12-45F6-8855-D38039B19FA4}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "解决方案项", "解决方案项", "{F521A936-AE6C-4069-AFB0-AB0E69FB54F6}"
+	ProjectSection(SolutionItems) = preProject
+		Readme.md = Readme.md
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{759D1B6A-8832-414F-AE87-EBBD9B2068EE}.Debug|x64.ActiveCfg = Debug|x64
+		{759D1B6A-8832-414F-AE87-EBBD9B2068EE}.Debug|x64.Build.0 = Debug|x64
+		{759D1B6A-8832-414F-AE87-EBBD9B2068EE}.Debug|x86.ActiveCfg = Debug|Win32
+		{759D1B6A-8832-414F-AE87-EBBD9B2068EE}.Debug|x86.Build.0 = Debug|Win32
+		{759D1B6A-8832-414F-AE87-EBBD9B2068EE}.Release|x64.ActiveCfg = Release|x64
+		{759D1B6A-8832-414F-AE87-EBBD9B2068EE}.Release|x64.Build.0 = Release|x64
+		{759D1B6A-8832-414F-AE87-EBBD9B2068EE}.Release|x86.ActiveCfg = Release|Win32
+		{759D1B6A-8832-414F-AE87-EBBD9B2068EE}.Release|x86.Build.0 = Release|Win32
+		{244C1758-6E12-45F6-8855-D38039B19FA4}.Debug|x64.ActiveCfg = Debug|x64
+		{244C1758-6E12-45F6-8855-D38039B19FA4}.Debug|x64.Build.0 = Debug|x64
+		{244C1758-6E12-45F6-8855-D38039B19FA4}.Debug|x86.ActiveCfg = Debug|Win32
+		{244C1758-6E12-45F6-8855-D38039B19FA4}.Debug|x86.Build.0 = Debug|Win32
+		{244C1758-6E12-45F6-8855-D38039B19FA4}.Release|x64.ActiveCfg = Release|x64
+		{244C1758-6E12-45F6-8855-D38039B19FA4}.Release|x64.Build.0 = Release|x64
+		{244C1758-6E12-45F6-8855-D38039B19FA4}.Release|x86.ActiveCfg = Release|Win32
+		{244C1758-6E12-45F6-8855-D38039B19FA4}.Release|x86.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {AE28662D-0D2A-494F-ACC7-0E3FE0A3ED4E}
+	EndGlobalSection
+EndGlobal
