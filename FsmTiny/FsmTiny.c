@@ -1,7 +1,7 @@
 #include <stdlib.h>
 #include "FsmTiny.h"
 
-static struct FsmTiny
+struct FsmTiny
 {
 	FsmTinyState Initial;
 	FsmTinyState Final;
@@ -61,6 +61,15 @@ void FsmTiny_SetNew(void* fsmTiny, FsmTinyState newState)
 	if (fsm)
 	{
 		fsm->New = newState;
+	}
+}
+
+void FsmTiny_Restart(void* fsmTiny)
+{
+	struct FsmTiny* fsm = fsmTiny;
+	if (fsm)
+	{
+		fsm->Current = fsm->Initial;
 	}
 }
 

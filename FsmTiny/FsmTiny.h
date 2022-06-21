@@ -1,5 +1,5 @@
 /*--------------------------------------------------------------------------
-FSMTNY.H
+FSMTINY.H
 Finite state machine(Mealy) tiny version 1.0 functions for ANSI C.
 Powered by feallee@hotmail.com at #2022/06/17#.
 --------------------------------------------------------------------------*/
@@ -13,7 +13,7 @@ Powered by feallee@hotmail.com at #2022/06/17#.
 /// <summary>
 /// 表示状态机的一种状态。如果需切换状态，则必须在状态函数返回之前调用函数 FsmTiny_SetNew 设置新的状态。
 /// 注意：只允许在状态函数调用函数 FsmTiny_SetNew 和 FsmTny_GetCurrent；不允许状态函数调用状态函数和下面的函数：
-/// FsmTiny_Create，FsmTny_Transit 和 FsmTny_Dispose。
+/// FsmTiny_Create，FsmTny_Transit,FsmTiny_Restart 和 FsmTny_Dispose。
 /// </summary>
 typedef void (*FsmTinyState)(size_t eventArgs);
 /// <summary>
@@ -21,7 +21,7 @@ typedef void (*FsmTinyState)(size_t eventArgs);
 /// </summary>
 /// <param name="initialState">起始状态。</param>
 /// <param name="finalState">最终状态。</param>
-/// <returns>返回状态机。如果创建失败，返回 NULL。</returns>
+/// <returns>返回状态机。如果创建失败（内存不足），返回 NULL。</returns>
 void* FsmTiny_Create(FsmTinyState initialState, FsmTinyState finalState);
 /// <summary>
 /// 获取状态机的当前状态。
@@ -42,6 +42,11 @@ unsigned char FsmTiny_Transit(void* fsmTiny, size_t eventArgs);
 /// <param name="fsmTny">状态机。</param>
 /// <param name="state">新状态。如果为 NULL 则无效。</param>
 void FsmTiny_SetNew(void* fsmTiny, FsmTinyState newState);
+/// <summary>
+/// 重新启动状态机。
+/// </summary>
+/// <param name="fsmTny">状态机。</param>
+void FsmTiny_Restart(void* fsmTiny);
 /// <summary>
 /// 释放状态机占用的资源。
 /// </summary>

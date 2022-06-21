@@ -52,10 +52,13 @@ void PauseState(size_t value)
 	}
 }
 
+
+
 int main(void)
 {
 
-	fsm=FsmTiny_Create( StopState, NULL);
+
+	fsm = FsmTiny_Create(StopState, NULL);
 	//模拟按键事件。
 	FsmTiny_Transit(fsm, KEY_PLAY_PAUSE);
 	FsmTiny_Transit(fsm, KEY_PLAY_PAUSE);
