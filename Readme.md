@@ -6,6 +6,7 @@ ANSI C 规范，易于扩展和学习。
 - 状态机：FsmTiny
 - 按键：WtButton
 - 灯控：WtLamp
+- 十六进制转换：Hex
 
 # 获取
 
