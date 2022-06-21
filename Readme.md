@@ -26,7 +26,8 @@ git clone https://github.com/feallee/WtLibrary.git
 
 如果有什么问题或者建议，欢迎选用下面的方式进行讨论：
 - [issues](https://github.com/feallee/WtLibrary/issues)
-- [feallee@hotmail.com](mailto://feallee@hotmail.com)                                         
+- [feallee@hotmail.com](mailto://feallee@hotmail.com) 
+- [weas.top](https://www.weas.top)
 
 # 维护
  
@@ -39,3 +40,4 @@ git clone https://github.com/feallee/WtLibrary.git
 # 友情链接
 
 - [深圳市华智联科技有限公司](https://www.szhzlkj.com/)
+- [weas.top](https://www.weas.top)
