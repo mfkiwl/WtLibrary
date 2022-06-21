@@ -1,11 +1,9 @@
-#include <stddef.h>
-#include 
+#include "..\FsmTiny\FsmTiny.h"
 #include "WtButton.h"
 
 static struct Button
 {
 	unsigned char Id;
-	unsigned char State;//0=抬起状态（默认），1=按下状态	
 	unsigned int TimeUp;
 	unsigned int TimeDown;
 	unsigned char CountUp;
@@ -18,6 +16,10 @@ static struct Button
 static WtButtonRead Read;
 static WtButtonReport Report;
 
+static void* Fsm;
+static void UpState(size_t eventArgs);
+static void DownState(size_t eventArgs);
+
 static void Raise(unsigned char id, WtButtonType type, unsigned char count)
 {
 	if (Report)
@@ -26,45 +28,7 @@ static void Raise(unsigned char id, WtButtonType type, unsigned char count)
 	}
 }
 
-void WtButton_Initialize(WtButtonRead read, WtButtonReport report)
-{
-	Head = NULL;
-	Read = read;
-	Report = report;
-}
-
-unsigned char WtButton_Regist(unsigned char id, unsigned char interval, unsigned char ticks)
-{
-	unsigned char r = 1;
-	struct Button* curr = Head;
-	while (curr)
-	{
-		if (curr->Id == id)
-		{
-			r = 0;
-			break;
-		}
-		curr = curr->Next;
-	}
-	if (r)
-	{
-		if (curr = calloc(1, sizeof(struct Button)))
-		{
-			curr->Next = Head;
-			curr->Id = id;
-			curr->Interval = interval;
-			curr->Ticks = ticks;
-			Head = curr;
-		}
-		else
-		{
-			r = 0;
-		}
-	}
-	return r;
-}
-
-void WtButton_Scan(void)
+static void UpState(size_t eventArgs)
 {
 	struct Button* curr = Head;
 	unsigned char v;
@@ -73,39 +37,110 @@ void WtButton_Scan(void)
 		if (Read)
 		{
 			v = Read(curr->Id);
-			if (curr->State == 0)
+			if (v)
 			{
-				if (v)
-				{
-					curr->TimeDown = 0;
-					curr->CountDown = 0;
-					curr->State = 1;					
-				}
-				else
-				{
-					curr->TimeDown = 0;
-					curr->CountDown = 0;
-					if(curr->CountUp)
-				}
+				curr->TimeDown = 0;
+				curr->CountDown = 0;
+				FsmTiny_SetNew(Fsm, DownState);
 			}
-			else if (curr->State == 1)
+			else
 			{
-				if (v)
+				if (curr->CountDown)//如果曾经按下过
 				{
-					if (curr->TimeDown++ % curr->Interval == 0)
-					{						
-						Raise(curr->Id,WtButtonTypeDown,++curr->CountDown);
+					if (curr->TimeUp == 0)
+					{
+						Raise(curr->Id, WtButtonTypeUp, ++curr->CountUp);
+					}
+					if (curr->TimeUp++ > curr->Ticks)
+					{
+						curr->CountUp = 0;
+						curr->TimeUp = 0;
+						curr->CountDown = 0;
 					}
 				}
-				else
-				{	
-					curr->State = 0;
-				}
-
 			}
 		}
 		curr = curr->Next;
 	}
+}
+
+static void DownState(size_t eventArgs)
+{
+	struct Button* curr = Head;
+	unsigned char v;
+	while (curr)
+	{
+		if (Read)
+		{
+			v = Read(curr->Id);
+			if (v)
+			{
+				if (curr->TimeDown % curr->Interval == 0)
+				{
+					Raise(curr->Id, WtButtonTypeDown, ++curr->CountDown);
+				}
+			}
+			else
+			{
+				curr->TimeUp = 0;
+				FsmTiny_SetNew(Fsm, UpState);
+			}
+		}
+		curr = curr->Next;
+	}
+}
+
+
+void WtButton_Initialize(WtButtonRead read, WtButtonReport report)
+{
+	Head = NULL;
+	Read = read;
+	Report = report;
+	Fsm = FsmTiny_Create(UpState, NULL);
+}
+
+unsigned char WtButton_Regist(unsigned char id, unsigned char interval, unsigned char ticks)
+{
+	unsigned char r = 0;
+	struct Button* curr;
+	if (interval && ticks)
+	{
+		curr = Head;
+		while (curr)
+		{
+			if (curr->Id == id)
+			{
+				break;
+			}
+			curr = curr->Next;
+		}
+		if (curr)
+		{
+			curr->Id = id;
+			curr->Interval = interval;
+			curr->Ticks = ticks;
+			r = 1;
+		}
+		else
+		{
+			if (curr = calloc(1, sizeof(struct Button)))
+			{
+				curr->Next = Head;
+				curr->Id = id;
+				curr->Interval = interval;
+				curr->Ticks = ticks;
+				Head = curr;
+				r = 1;
+			}
+		}
+	}
+	return r;
+}
+
+void WtButton_Scan(void)//建议扫描频率 100Hz 
+{
+	//static size_t t = 0;
+	FsmTiny_Transit(Fsm,0);
 }
 
 void WtButton_Dispose(void)
@@ -117,4 +152,5 @@ void WtButton_Dispose(void)
 		free(curr);
 		curr = next;
 	}
+	FsmTiny_Dispose(Fsm);
 }
