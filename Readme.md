@@ -15,7 +15,7 @@ git clone https://github.com/feallee/WtLibrary.git
 # 问题和建议
 
 如果有什么问题或者建议，欢迎选用下面的方式进行讨论：
-- [issues](https://github.com/feallee/WtLibary/issues)
+- [issues](https://github.com/feallee/WtLibrary/issues)
 - [feallee@hotmail.com](mailto://feallee@hotmail.com)                                         
 
 # 维护
