@@ -3,77 +3,58 @@
 
 struct FsmTiny
 {
-	FsmTinyState Initial;
-	FsmTinyState Final;
 	FsmTinyState Current;
-	FsmTinyState New;
 };
 
-void* FsmTiny_Create(FsmTinyState initialState, FsmTinyState finalState)
+void* FsmTiny_Start(FsmTinyState initialState)
 {
 	struct FsmTiny* fsm;
-	if (fsm = calloc(1, sizeof(struct FsmTiny)))
+	if (initialState)
 	{
-		fsm->Initial = fsm->Current = initialState;
-		fsm->Final = finalState;
-		fsm->New = NULL;
+		if (fsm = malloc(sizeof(struct FsmTiny)))
+		{
+			fsm->Current = initialState;
+		}
+	}
+	else
+	{
+		fsm = NULL;
 	}
 	return fsm;
 }
 
 FsmTinyState FsmTiny_GetCurrent(void* fsmTiny)
 {
-	FsmTinyState r = NULL;
-	struct FsmTiny* fsm = fsmTiny;
-	if (fsm)
+	FsmTinyState r;
+	struct FsmTiny* fsm;
+	if (fsm = fsmTiny)
 	{
 		r = fsm->Current;
 	}
+	else
+	{
+		r = NULL;
+	}
 	return r;
 }
 
-unsigned char FsmTiny_Transit(void* fsmTiny, size_t eventArgs)
+unsigned char FsmTiny_Transit(void* fsmTiny, size_t eventType, void* eventArgs)
 {
 	unsigned char r = 0;
-	struct FsmTiny* fsm = fsmTiny;
-	if (fsm)
+	struct FsmTiny* fsm;
+	FsmTinyState state;
+	if (fsm = fsmTiny)
 	{
-		if (fsm->Current != fsm->Final)
+		if (state = fsm->Current(eventType, eventArgs))
 		{
-			if (fsm->Current)
-			{
-				fsm->Current(eventArgs);
-				if (fsm->New)
-				{
-					fsm->Current = fsm->New;
-					fsm->New = NULL;
-				}
-				r = 1;
-			}
+			fsm->Current = state;
 		}
+		r = 1;
 	}
 	return r;
 }
 
-void FsmTiny_SetNew(void* fsmTiny, FsmTinyState newState)
-{
-	struct FsmTiny* fsm = fsmTiny;
-	if (fsm)
-	{
-		fsm->New = newState;
-	}
-}
-
-void FsmTiny_Restart(void* fsmTiny)
-{
-	struct FsmTiny* fsm = fsmTiny;
-	if (fsm)
-	{
-		fsm->Current = fsm->Initial;
-	}
-}
-
-void FsmTiny_Dispose(void* fsmTiny)
+void FsmTiny_Stop(void* fsmTiny)
 {
 	free(fsmTiny);
 }
