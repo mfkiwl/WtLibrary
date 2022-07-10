@@ -1,6 +1,6 @@
 /*--------------------------------------------------------------------------
 FSMTINY.H
-Finite state machine(Mealy) tiny version 1.0 functions for ANSI C.
+Finite state machine(Mealy) tiny version 1.1 functions for ANSI C.
 Powered by feallee@hotmail.com at #2022/06/17#.
 --------------------------------------------------------------------------*/
 #ifndef __FSM_TINY_H_
@@ -16,7 +16,7 @@ Powered by feallee@hotmail.com at #2022/06/17#.
 /// </summary>
 /// <param name="eventType">状态关联的事件类型。</param>
 /// <param name="eventArgs">状态关联的事件参数。</param>
-/// <returns>返回新的状态。如果返回 NULL 表示保持在当前状态。</returns>
+/// <returns>返回新的状态，状态机会切换到新的状态。如果返回 NULL 状态机保持在当前状态。</returns>
 typedef void* (*FsmTinyState)(size_t eventType, void* eventArgs);
 /// <summary>
 /// 启动一个新的状态机并返回其实例。
